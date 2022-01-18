@@ -1,0 +1,235 @@
+flutter doctor 
+
+
+Open Android Studio -> Configure -> AVD Manager -> Run Your Virtual Device
+Visual studio code -> View -> Command palette... -> Flutter: Select Device -> choose your android device
+--> F5 VSC
+
+
+https://stackoverflow.com/questions/28418450/i-cant-install-intel-haxm
+
+
+--------------------------------
+
+Start virtual machine (phone) in android studio 
+
+Press F5 in VSCode
+
+
+To perform a hot restart, run the Flutter: Hot Restart command from the Command Palette,
+ or press Ctrl + Shift + F5 ( Cmd + Shift + F5 on macOS)
+ 
+ 
+ ---------------------------------------------
+ 
+if load images issue: thinker with indentation in pubspec.yml file (or close vscode and reopen and f5)
+ 
+ 
+ ----------------------------------------------------
+ 
+  In Flutter, almost everything that makes up the user interface is a Widget.
+  
+  class MyApp extends StatelessWidget {
+  
+  inherit from a class (python: class MyAPP(StatelessWidget):)
+  
+  -> A StatelessWidget doesn’t change after you build it.
+  
+  
+  main() is the entry point for the code when the app launches. 
+  runApp() tells Flutter which is the top-level widget for the app.
+  
+  --------------------------
+  
+  With hot reload you can quickly see the effect of code changes and the app state is preserved. 
+  For example, if the user was in a “logged in” state before the code changed, a hot reload will preserve such a state and you won’t need to log in again to test your changes.
+
+If you’ve made significant changes, like adding a new property to a state or changed main() like in the case above, then you need to hot restart, so that the new change is detected and included in the new build.
+
+For even bigger changes, like adding dependencies or assets, you need to a full build and run.
+
+------------------------------------------------
+
+@override
+Widget build(BuildContext context) {
+  // 2
+  final ThemeData theme = ThemeData();
+  // 3
+  return MaterialApp(
+    // 4
+    title: 'Recipe Calculator',
+    // 5
+    theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+            primary: Colors.grey,
+            secondary: Colors.black,
+        ),
+    ),
+    // 6
+    home: const MyHomePage(title: 'Recipe Calculator'),
+  );
+}
+
+A widget’s build() method is the entry point for composing together other widgets to make a new widget.
+A theme determines visual aspects like color. The default ThemeData will show the standard Material defaults.
+MaterialApp uses Material Design and is the widget that will be included in RecipeApp.
+The title of the app is a description that the device uses to identify the app. The UI won’t display this.
+By copying the theme and replacing the color scheme with an updated copy lets you change the app’s colors. Here, the primary color is Colors.grey and the secondary color is Colors.black.
+This still uses the same MyHomePage widget as before, but now, you’ve updated the title and displayed it on the device.
+
+
+-----------------------------
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    // 1
+    return Scaffold(
+      // 2
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      // 3
+      body: SafeArea(
+        // TODO: Replace child: Container()
+        // 4
+        child: Container(),
+        ),
+    );
+  }
+
+  // TODO: Add buildRecipeCard() here
+}
+
+A Scaffold provides the high-level structure for a screen. In this case, you’re using two properties.
+AppBar gets a title property by using a Text widget that has a title passed in from home: MyHomePage(title: 'Recipe Calculator') in the previous step.
+body has SafeArea, which keeps the app from getting too close to the operating system interfaces such as the notch or interactive areas like the Home Indicator at the bottom of some iOS screens.
+SafeArea has a child widget, which is an empty Container widget.
+
+
+-----------------------------------
+
+Widget buildRecipeCard(Recipe recipe) {
+  // 1
+  return Card(
+    // 2
+      child: Column(
+        // 3
+        children: <Widget>[
+          // 4
+          Image(image: AssetImage(recipe.imageUrl)),
+          // 5
+          Text(recipe.label),
+        ],
+      ),
+  );
+}
+You return a Card from buildRecipeCard().
+The Card’s child property is a Column. A Column is a widget that defines a vertical layout.
+The Column has two children.
+The first child is an Image widget. AssetImage states that the image is fetched from the local asset bundle defined in pubspec.yaml.
+A Text widget is the second child. It will contain the recipe.label value.
+
+------------------------------------
+
+Widget buildRecipeCard(Recipe recipe) {
+  return Card(
+    // 1
+    elevation: 2.0,
+    // 2
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.0)),
+    // 3
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      // 4
+      child: Column(
+        children: <Widget>[
+          Image(image: AssetImage(recipe.imageUrl)),
+          // 5
+          const SizedBox(
+            height: 14.0,
+          ),
+          // 6
+          Text(
+            recipe.label,
+            style: const TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w700,
+              fontFamily: 'Palatino',
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+A card’s elevation determines how high off the screen the card is, affecting its shadow.
+shape handles the shape of the card. This code defines a rounded rectangle with a 10.0 corner radius.
+Padding insets its child’s contents by the specified padding value.
+The padding child is still the same vertical Column with the image and text.
+Between the image and text is a SizedBox. This is a blank view with a fixed size.
+You can customize Text widgets with a style object. In this case, you’ve specified a Palatino font with a size of 20.0 and a bold weight of w700.
+
+----------------------------------------------------------
+
+// 7
+return GestureDetector(
+  // 8
+  onTap: () {
+    // 9
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+        // 10
+        // TODO: Replace return with return RecipeDetail()
+        return Text('Detail page');
+      },
+    ),
+   );
+  },
+  // 11
+  child: buildRecipeCard(Recipe.samples[index]),
+);
+
+Introduces a GestureDetector widget, which, as the name implies, detects gestures.
+Implements an onTap function, which is the callback called when the widget is tapped.
+The Navigator widget manages a stack of pages. Calling push() with a MaterialPageRoute will push a new Material page onto the stack. Section III, “Navigating Between Screens”, will cover navigation in a lot more detail.
+builder creates the destination page widget.
+GestureDetector’s child widget defines the area where the gesture is active.
+
+
+---------------------------
+
+  State<RecipeDetail> createState() => _RecipeDetailState();
+  
+   _RecipeDetailState createState() {
+     return _RecipeDetailState();
+   }
+
+--------------------------------------------------
+
+// 7
+Expanded(
+  // 8
+  child: ListView.builder(
+    padding: const EdgeInsets.all(7.0),
+    itemCount: widget.recipe.ingredients.length,
+    itemBuilder: (BuildContext context, int index) {
+      final ingredient = widget.recipe.ingredients[index];
+      // 9
+      // TODO: Add ingredient.quantity
+      return Text(
+          '${ingredient.quantity} ${ingredient.measure} ${ingredient.name}');
+    },
+  ),
+),
+
+
+An Expanded widget, which expands to fill the space in a Column. This way, the ingredient list will take up the space not filled by the other widgets.
+A ListView, with one row per ingredient.
+A Text that uses string interpolation to populate a string with runtime values. You use the ${expression} syntax inside the string literal to denote these.
+
+
+----------------------------------------------------------
