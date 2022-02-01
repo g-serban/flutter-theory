@@ -1,0 +1,318 @@
+https://www.youtube.com/watch?v=1xipg02Wu8s
+
+----------------------
+
+
+
+import 'package:flutter/material.dart';
+
+https://docs.flutter.dev/development/ui/widgets/material
+
+
+---------------------------
+
+tips
+ -> write st in editor and you can select stateless widget or statefull widget syntax
+ -> refactor tool: ctrl + .  on the widget and select wrap with center (for example) to write that code for you automatically
+ -> trailing comma: use a comma after each line of code - keeps you're code nicely formatted
+		-> right click and choose format document afterwards 
+		
+-> '$value'
+-> hot reload: capital R in VSCode command line 
+ 
+
+--------
+
+STATELESS --> UI element that has no internal data (no dynamic data)
+
+(see more on the state chapter down bellow) 
+
+
+---------
+
+build method: returns a widget and will be called anytime Flutte needs to rebuild the UI (e.g. when data changes)
+
+@override
+Widget build(BuildContext context() {
+	return MaterialApp(   --> used as the root of the application and allows us to configure themes and routes
+	home: Scaffold(   --> Visual layout structure, allows you to build screens with common UI elements 
+	  appbar: AppBar(
+	    title: const Text('Flutter is fun'),
+		),
+	  ),
+	);
+}
+
+
+--------------------------
+
+widgets:
+
+The central idea is that you build your UI out of widgets.
+ Widgets describe what their view should look like given their current configuration and state.
+ When a widget’s state changes, the widget rebuilds its description, which the framework diffs 
+ against the previous description in order to determine the minimal changes needed in the
+ underlying render tree to transition from one state to the next.
+
+-----------------------------------------
+
+LAYOUT - how to move widgets around 
+	- how do I put widgets where they need to go in the screen 
+
+--> container 
+	-> it takes only 1 child as its argument
+	- think of it as a box, and we can change the dimensions of this box 
+	
+	
+Widget build ...
+	
+	appbar: AppBar( 
+	   child: const Text('Hi Mom'),
+	   margin: const EdgeInsets.all(100),
+	   padding: const EdgeInsets.all(10),
+	   color: Colors.red,
+	   height: 100,
+	   width: 100,	   
+		),
+
+tip: if you're using the container to add some padding, use the padding widget instead 
+
+	appBar(
+		body: const Center(
+			child: Padding(
+				child: Text('Hi Mom'),
+				padding: EdgeInsets.all(10),
+	...
+	
+	-> or if you're creating a container with a fixed width and height, use SizedBox widget instead 
+	
+	appBar(
+		body: const Center(
+			child: SizedBox(
+				child: Text('Hi Mom'),
+				height: 100,
+				width: 100,
+---------------------
+
+FLEX LAYOUT
+	or how we deal with multiple widgets (like a row or column)
+	
+-> a column takes multiple children as a list 
+
+							__row__
+							(2 children)
+
+	child: new Column       ----        child: new Image 
+		(4 children) 
+
+
+-----------------------------main axis-------------------
+|
+|
+cross axis					ROW
+|
+|
+	
+-> by default, each child has a flex value of 1: each sibling occupies the same amount of space
+-> if not desirable, you can wrap the child in a flexible or expandable widget 
+
+	expanded: tells a child to take out any available space
+
+	appBar: AppBar( 
+		body: Row(
+			mainAxisAligment: MainAxisAligment.center,
+			crossAxisAligment: CrossAxisAligment.end,
+			children: const [
+				Expanded(
+					flex: 4,
+					child: Icon(Icons.backpack),
+				),
+				Icon(Icons.leaderboard),
+				Icon(Icons.person)
+			],
+			...
+
+--------------------
+
+STACK 
+	- widgets top of each other (e.g. a button that flows on top of other UI element)
+	- Stack: it takes a list of children as an argument 
+	
+		appBar: AppBar( 
+		body: Stack(
+			children: const [
+				Container(),
+				Icon(Icons.verified),
+				Positioned(
+					child: Icon(Icons.verified),
+					top: 25,
+					left: 25,
+				Align( --> position relative to its parent)
+					child: Icon(Icons.verified),
+					alignment: Alignment.center,
+				
+				
+			],
+			...
+
+------------------------------------
+
+Scaffold magic widgets 
+
+	-> flutter takes care of many UI elements out of the box
+	home: Scaffold(
+		appBar: AppBar(
+			title: const Text('hi"),
+		),
+		
+		floatingActionButton: FloatingActionButton(
+			child: Icon(Icons.add),
+			onPressed: () {}    --> handle gestures
+		),
+		
+		bottomNavigationBar: BottomNavigationBar(   -> add some navigation icons to the scaffold
+			items: const [
+				BottomNavigationBarItem(
+					icon: Icon(Icons.home),
+					label: 'Home',
+				BottomNavigationBarItem(
+					icon: Icon(Icons.business),
+					label: 'Home',
+				BottomNavigationBarItem(
+					icon: Icon(Icons.school),
+					label: 'Home',
+				),
+			...
+
+-----------------------
+
+Scrollable widgets 
+		- how does flutter scroll?
+		- you need to use widget like listView
+	
+listView 
+	- it takes a list of children as its argument but we'll scroll between themes
+	- can scroll horizontally or vertically 
+	- you can tell it to garbage collect items that are no longer on the screen 
+
+	body: ListView(
+		scrollDirection: Axis.horizontal,
+		addAutomaticKeepAlives: false,   --> garbage collector
+		children: [
+			Container(),
+			Container(),
+			Container(),
+			Container(),
+		],
+		...
+
+--------------------------
+
+BUILDER
+	- how to build widgets dynamically using builders
+	- builders: a function that you define, that can map a list of data to a list of widgets
+	- so that you can create a scrollable list that is infinitely long where the children are rendered lazely, 	
+			keeping the UI smooth and fast 
+
+	body: ListView.builder(
+			itemBuilder: (_, index) {
+			return Container(
+				
+		],
+		...
+		
+--------------------------------------------
+
+STATE 
+	- data that changes throughout the lifecycle of the app 
+	
+
+STATELESS WIDGET --> has no state
+
+
+
+to give a widget mutable data, we need to convert it to a stateful widget  
+
+	-> that would break the widget in 2 different classes, that keeps the widget itself immutable, 
+				while giving us a state class where we can play with mutable data 
+	-> mutable state class: has a build method but we can also define variables on this class and change them 
+			by using the setState(() {}) function somewhere else on our code (e.g. onPressed: () { setState...
+
+	-> you can initialize data (maybe fetch a record from a db)
+	
+	@override
+	void initState() {
+		// fetch data from Firebase
+		super.initState():
+	}
+	
+	-> dispose: runs when the widget is removed from the UI 
+	
+	@override
+	void dispose() {
+	    // implement dispose
+		super.dispose();
+	}
+	
+	--> stateful widgets are not the only way to manage state in Flutter
+		-> you can use provider package, block package, cubit package, etc. 
+
+class MyApp extends StatefulWidget {   -> immutable widget 
+	const MyApp({Key? key}) : super (key : key);
+	
+	@override 
+	State<MyApp> createState() => _MyAppState();
+	
+
+class _MyAppState extends State<MyApp> {   --> mutable state class, where we can play with mutable data 
+
+	@override
+	int number = 0;
+	Widget build( ...
+	
+
+------------------------------------
+
+
+NAVIGATION 
+
+	- how does Flutter navigation work 
+	
+-> flutter has navigator 1.0 and 2.0
+
+1.0 Imperative simple
+	-> think of your navigation like a stack, where you can push and pop different screens onto it
+		-> to add a new screen on top of the stack, we use Navigator.push with the build context, 
+				then create a new material page route. The route expects a builder function which then 
+					return the screen you want to render 
+
+2.0 Declarative complex 
+
+
+	home: Scaffold(
+		appBar: AppBar(
+			title: Text('hi'),
+		),
+		
+		body: ElevatedButton(
+			child: Text('Navigate'),
+			onPressed: () {
+				Navigator.push(
+					context, 
+					MaterialPageRoute(
+						builder: (_) => AboutScreen(),
+					),
+				.....
+			
+------------------
+
+HERO widget 
+	- animate elements from one screen to another 
+	- on page 1 an icon button with the image, on page 2 the same image taking on the full screen 
+		- we wrap the images in a hero, the hero argument needs an ID to identify it when it's get animated to 
+			the other page (we need the hero widget with the id on both widgets screens)
+		
+		body: Hero(
+			tag: img,   --> the Hero ID needed on both widgets to animate the transition from one to the other 
+			child: Image.network(img),
+		...

@@ -11,13 +11,15 @@ https://stackoverflow.com/questions/28418450/i-cant-install-intel-haxm
 
 --------------------------------
 
-Start virtual machine (phone) in android studio 
+Start virtual machine (phone) in android studio (more actions -> AVD manager)
 
 Press F5 in VSCode
 
 
-To perform a hot restart, run the Flutter: Hot Restart command from the Command Palette,
- or press Ctrl + Shift + F5 ( Cmd + Shift + F5 on macOS)
+hot restart -> run the Flutter: Hot Restart command from the Command Palette,
+ 			or press Ctrl + Shift + F5 ( Cmd + Shift + F5 on macOS)
+
+hot reload --> press r in the VSCode terminal
  
  
  ---------------------------------------------

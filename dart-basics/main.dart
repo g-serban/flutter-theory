@@ -40,6 +40,8 @@ var image = {
 String name2 = 'Voyager II';
 int year2 = 1988;
 
+var int num3 = 3;
+
 final name3 =
     'Voyager III'; // If you never intend to change a variable, use final or const, either instead of var or in addition to a type.
 const int year3 = 1999;
@@ -70,12 +72,18 @@ while (year < 2016) {
 
 
 // functions
+
+main(x) {
+  print(x);
+}
+
 // We recommend specifying the types of each function’s arguments and return value:
 
 num fibonacci(int n) {
   if (n == 0 || n == 1) return n;
   return fibonacci(n - 1) + fibonacci(n - 2);
 }
+
 var result = fibonacci(20);
 
 // A shorthand => (arrow) syntax is handy for functions that contain a single statement. This syntax is especially useful when passing anonymous functions as arguments:
@@ -85,12 +93,13 @@ flyByObjects.where((name) => name.contains('turn')).forEach(print);
 
 
 // Classes
+
 class Spacecraft {
   String name;
-  DateTime? launchDate;
+  DateTime? launchDate;   // In a class, Declare instance variable launchDate, initially null.
 
   // Read-only non-final property
-  int? get launchYear => launchDate?.year;
+  int? get launchYear => launchDate?.year;   // Use ?. instead of . to avoid an exception when the leftmost operand is null:
 
    // Constructor, with syntactic sugar for assignment to members.
    Spacecraft(this.name, this.launchDate) {
@@ -127,6 +136,7 @@ var a = p?.y;
  class Happy {
    double? x;
  }
+
 // Instance variables can be final, in which case they must be set exactly once.
 class UnHappy {
   final String name;
@@ -157,7 +167,7 @@ class Point {
 
   // Syntactic sugar for setting x and y
   // before the constructor body runs.
-  Point(this.x, this.y);
+  Point(double this.x, this.y);   // but we already know that x is a double 
 }
 
 // Use a named constructor to implement multiple constructors for a class or to provide extra clarity:
@@ -187,6 +197,9 @@ class ImmutablePoint {
 
   const ImmutablePoint(this.x, this.y);
 }
+
+
+// TODO 
 
 // methods .... 
 // https://dart.dev/guides/language/language-tour#classes
