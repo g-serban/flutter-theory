@@ -1,5 +1,7 @@
 import 'dart:math';
 
+// https://www.youtube.com/watch?v=veMhOYRib9o
+
 // usage of ?, because I forget and get confused afterwards
 // int? get launchYear => launchDate?.year;    --> getter
 // int? LaunchYear -> variables can't be null unless you declare them as a null type
@@ -37,9 +39,12 @@ void main() {
   Shape sq1 = new Shape();
   Shape sq2 = new Shape.fromLength(3.0);
   Shape sq3 = new Shape.fromWH(3.0, 4.0);
+  Shape? sq4;
   print('Square 3 Area: ${sq3.area()}');
   print('Shape height ${sq2.shapeHeight}');
   print('Shape 1 width ${sq1.shapeWidth} & shape 3 width ${sq1.shapeWidth}');
+  print(sq4); // -> null
+  print(sq4?.unit); // -> null
 
   Circle c1 = new Circle.fromLength(4.0);
   print('Circle area : ${c1.area()}');
@@ -52,7 +57,6 @@ void main() {
   // exception handling
   exceptionHandling();
 }
-
 
 // variables -------------------------------------------------------------------
 void variables() {
@@ -222,7 +226,6 @@ void lists() {
   print(s7);
 }
 
-
 // sets ------------------------------------------------------------------------
 void sets() {
   // set = collection of objects, they must be unique (similar to a list)
@@ -257,7 +260,6 @@ void maps() {
   heroes.clear();
   print('Empty: ${heroes.isEmpty}');
 }
-
 
 // enumerate -------------------------------------------------------------------
 enum Day { Mon, Tue, Wed, Thr, Fri }
@@ -367,7 +369,6 @@ void runes() {
   String uc1 = 'Strange';
   print(uc1.codeUnits);
 }
-
 
 // functions -------------------------------------------------------------------
 

@@ -1,0 +1,32 @@
+Scaffold  ->  has body, bottomNavigationBar, etc.
+							(anything name Bar usually has children, items containing a list)
+
+
+container has child and takes only one argument (e.g. Row, Column, Scaffold, etc.)
+row & column have children and take a list
+
+Container
+	-> give a container padding (or margin), e.g. padding: const EdgeInsets.only(top: 70, left: 20),
+			- so that you can move your containers position relative to the screen border
+	-> you can give the container width and height as well 
+	-> use decoration: BoxDecoration(borderRadiu: BorderRadius.smth())  -> if you want to have a border around the container 
+
+
+-> use SizedBox(height: 40,) to have space between 2 elements (on the cross Axis)
+	-> or you can use a container with padding: const EdgeInsets.only(top: 40)
+	
+	
+Row _ and Column 
+	-> both have crossAxisAligment and mainAxisAligment properties
+
+Row 	
+	-> if you have 2 items on a row and want one to the left and one to the right of the row you can add an expanded between them
+		e.g. 
+	row(
+	  children: [
+		Icon(),
+		Expanded(child: Container()),
+		Container()
+
+
+
