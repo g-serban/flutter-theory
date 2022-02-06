@@ -5,6 +5,16 @@ Scaffold  ->  has body, bottomNavigationBar, etc.
 container has child and takes only one argument (e.g. Row, Column, Scaffold, etc.)
 row & column have children and take a list
 
+
+Margin vs padding 
+
+Margin means the spacing outside of the border, 
+		while padding is the spacing inside of the border.
+ Technically speaking, though, there is no such thing as margin in Flutter. 
+ Under the hood it is just another Padding widget that wraps the DecoratedBox.
+ 
+
+
 Container
 	-> give a container padding (or margin), e.g. padding: const EdgeInsets.only(top: 70, left: 20),
 			- so that you can move your containers position relative to the screen border
@@ -27,6 +37,24 @@ Row
 		Icon(),
 		Expanded(child: Container()),
 		Container()
+
+
+--> TabBar is a little bit complicated to align
+	e.g. put it in a container that has a Align child	
+				-> alignment: Alignment.centerLeft
+				child: TabBar ...
+					-> labelPadding: const EdgeInsets.only(left: 20, right: 20)
+					-> isScrollable: true
+			-> they all work together so watchout !
+			
+	-> if you want to have a indicator, it only takes a Decoration as argument, so you need to create a class that extends
+					Decoration, that has an override  createBoxPainter method which returns a circle box painter (create a 
+																			class for that as well)
+	
+	-> indicator dot tip: final Offset circleOffset = Offset(configuration.size!.width / 2 - radius / 2, configuration.size!.height - radius);
+						  canvas.drawCircle(offset + circleOffset, radius, _paint);
+								-> (... extend BoxPainter {void pain {}}
+			-> basically you'll have a dot under the TabBar text in the middle (see cubit state mng app home_page.dart)
 
 
 
