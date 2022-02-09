@@ -1,5 +1,5 @@
 
-width: double.maxFinite  -> takes the complete width 
+width: double.maxFinite  -> takes the complete width of the screen (or height)
 
 -> ctrl + .  -> wrap with ...
 
@@ -14,7 +14,7 @@ width: double.maxFinite  -> takes the complete width
                     image: AssetImage('img/mountain.jpeg')
                   )
 
-		# add stars painted depending on the gottenStars value (e.g. 1 blue 4 whites on a white background)
+		# add stars (or buttons or whatever) painted depending on the gottenStars value (e.g. 1 blue 4 whites on a white 														              background)
 			int gottenStars = 1;
                         Wrap(
                           children: List.generate(5, (index) {
@@ -27,6 +27,49 @@ width: double.maxFinite  -> takes the complete width
 * you can treat children as a child, 
 	instead of children = []
 	you say children = Container(),
+
+
+* in container you can have a border color:
+        border: Border.all(
+          color: ...,)
+
+
+* if you want to give a null var to a parameter, you need to put a ! at the end
+smth! = null checker, wheter you pass it or not 
+e.g. 
+	String? text;
+
+	AppText(text: text!);
+	(where parameter is String text)
+
+* widget Inkwell takes a onTap parameter!
+
+		e.g. 
+                        return InkWell(
+                          onTap: () {
+                            setState(() { // using this we trigger a new build
+                              selectedIndex = index; 
+                            });
+                          },
+	-> and then you can use it to change the color to a box (which is iterated multiple times)
+		               	  color: (selectedIndex == index)
+                                     ? Colors.black
+                                     : Colors.white,
+
+* positioned widget: 
+
+	   Positioned(
+              top: 270,
+	      left, right, bottom ...)
+
+
+
+* flexible widget: 
+
+	Flexible()
+		-> it's going to take all the space that it has (like a double.maxFinite sorta thing)
+
+
 
 
 Scaffold  ->  has body, bottomNavigationBar, etc.
