@@ -1,3 +1,34 @@
+
+width: double.maxFinite  -> takes the complete width 
+
+-> ctrl + .  -> wrap with ...
+
+
+
+	# add image
+              child: Container(
+                width: double.maxFinite,
+                height: 300,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('img/mountain.jpeg')
+                  )
+
+		# add stars painted depending on the gottenStars value (e.g. 1 blue 4 whites on a white background)
+			int gottenStars = 1;
+                        Wrap(
+                          children: List.generate(5, (index) {
+                            print(index);
+                            return Icon(
+                                Icons.star,
+                                color: gottenStars > index
+                                    ? Colors.blue : Colors.white);
+
+* you can treat children as a child, 
+	instead of children = []
+	you say children = Container(),
+
+
 Scaffold  ->  has body, bottomNavigationBar, etc.
 							(anything name Bar usually has children, items containing a list)
 

@@ -255,6 +255,10 @@ void maps() {
   heroes.keys.forEach((key) => print(key));
   heroes.values.forEach((val) => print(val));
 
+  const int index = 0;
+  print(heroes.keys.elementAt(index));
+  print(heroes.values.elementAt(index));
+
   heroes.addAll({'Majestic Man': 'Lex Luther', 'Loki': 'Loki'});
   heroes.remove('Majestic Man');
   heroes.clear();
@@ -404,6 +408,7 @@ int getSum4(List vals) {
 List next2(n1) {
   return [n1 + 1, n1 + 2];
 }
+
 
 // function that returns a custom function
 // this is going to create a custom multiplying function
