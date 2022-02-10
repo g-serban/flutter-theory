@@ -1,0 +1,137 @@
+cubit is a subset of bloc (called flutter_bloc)
+
+in pubspec.yml you add:
+
+dependencies:
+bloc:
+flutter_bloc:
+equatable: (this package works with cubit and flutter together)
+
+---------------------------------
+
+
+UI <-> cubit package -> we create a Cubit (class) -> emit()
+		     -> we create States (class) -> they hold data
+	
+	-> being in the same package, Cubit knows about States, and then will emit() the states
+	-> emiting a state: I know you want to do smth new or you changed a variable, so I should let the app know (emit()) -> 			redraw the UI
+
+
+
+-> BlocProvider & BlocBuilder
+
+blocProvider -> creates cubit
+	     -> holds cubit
+
+blocBuilder -> checks states, and based on those states, it will trigger smth
+
+
+-------------------------------------
+
+every cubit app should have an initial state -> 
+    when we first create a cubit, we pass a state class (InitialState) and afterwards we create a new state (emit(WelcomeState());
+
+
+basically it works like this:
+	main.dart ->  home: BlocProvider<AppCubits> creates a cubit (create: (context) => AppCubits()) and shows the logic
+												        (child: AppCubitLogic())
+
+	app_cubit_logic -> BlocBuilder<AppCubits, CubitStates>  checks the states and does some conditional checking (if state is)
+									         return WelcomePage(); else return otherPage();
+				-> basically works like a route redirect, either go here or there
+
+	app_cubits -> class AppCubits extends Cubit<CubitStates> { AppCubits() : super(InitialState()) { emit(WelcomeState()); }}  								cubit is initialized with initial state and then emits a new state	
+	
+	app_cubit_states  -> abstract class CubitStates extends Equatable {}, class InitialState extends CubitStates , etc...
+				-> here we put the data that should be changed 				    
+	
+
+	
+	app_cubit_states -> app_cubits -> app_cubit_logic -> main.dart home (create: cubit + child: app_cubit_logic)
+ (states: init + other) (emit new state)  (conditionals: checks states and redirects)
+
+
+
+
+	1.  in our app_cubit_states.dart page:
+
+e.g.
+
+abstract class CubitStates extends Equatable {}
+// abstract class = another class can extend this class as well
+
+
+   // we initialize every cubit app with an initialState
+class InitialState extends CubitStates {
+  late int x;  
+
+  // here we put the data that should be changed , states should hold data
+  @override
+  List<Object> get props => [x];
+}
+	-> based on the x variable we want to trigger rebuilds when value changed 
+		-> so if the variable is changed, we automatically get a rebuild of that part of the UI
+
+   // once we initialize InitialState, we want to trigger a new state called WelcomeState
+class WelcomeState extends CubitStates {
+  @override
+  List<Object> get props => [];
+}
+
+
+
+
+	2.  and then in the app_cubits.dart (in our cubit) page we initialize our state:
+
+class AppCubit extends Cubit<CubitStates> {    // <CubitStates> is the Cubit state type  -> this is how Cubit knows about the 							 state classes
+  AppCubit() : super(InitialState()) {
+    // after initializing the state, we want to emit a new state (the welcome page in our case)
+    emit(WelcomeState());
+  }
+}
+
+
+
+
+
+	3. in our app_cubit_logic.dart page we do conditional checking (using blocBuilder) - we check the states and do smth
+
+class AppCubitLogic extends StatefulWidget {
+  AppCubitLogic({Key? key}) : super(key: key);
+
+  @override
+  State<AppCubitLogic> createState() => _AppCubitLogicState();
+}
+
+class _AppCubitLogicState extends State<AppCubitLogic> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<AppCubits, CubitStates>(// checks the states
+          // BlocBuilder has to know about cubits and states, hence  BlocBuilder<AppCubits, CubitStates>
+          builder: (context, state) {
+        // al builders in Flutter take a builder with a function
+
+	// works like a route redirect, either go here or there
+        if (state is WelcomeState) {
+          return WelcomePage();  // trigger a new page using this cubit
+        } else {
+          return Container();
+        }
+      }),
+    );
+  }
+}
+
+
+
+
+	4.  in our main.dart page, at home: we use BlocProvider to create the cubit and show the logic 
+
+	      home: BlocProvider<AppCubits>(
+        create: (context) => AppCubits(), // create the cubit
+        // we pass a child that holds all the cubits or that can check them
+        child: AppCubitLogic(), // show the logic
+        // based on this, do conditional checks 
+        ),
+
