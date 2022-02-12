@@ -10,6 +10,13 @@ equatable: (this package works with cubit and flutter together)
 ---------------------------------
 
 
+app_cubits emits a new state after loading the initial one -> the data is saved in app_cubit_states -> app_cubit_logics receives the state from app_cubits, checks what the state is, goes through conditionals & does smth for that specific state (e.g. for LoadedState returns WelcomePage() --> which is basically just a redirect module); 
+	-> but, you actually have to assign a button or image or whatever a onTap function to trigger that redirect (using for example BlocProvider.of<AppCubits>(context).goHome(); -> where goHome is a method that emits a new state found in app_cubits).
+
+
+
+
+
 UI <-> cubit package -> we create a Cubit (class) -> emit()
 		     -> we create States (class) -> they hold data
 	
@@ -17,13 +24,52 @@ UI <-> cubit package -> we create a Cubit (class) -> emit()
 	-> emiting a state: I know you want to do smth new or you changed a variable, so I should let the app know (emit()) -> 			redraw the UI
 
 
+-------------------------------
+-> BlocProvider & BlocBuilder--
+-------------------------------
 
--> BlocProvider & BlocBuilder
+  blocProvider -> creates cubit (create: (context) => AppCubits())
+			(we use this in main to create the cubit and get the Cubit logic state as a child)
 
-blocProvider -> creates cubit
-	     -> holds cubit
+	        -> holds cubit (each class and method is also a cubit) and we can access them using blocProvider (BlocProvider.of<AppCubits>(context).methodName();)
 
-blocBuilder -> checks states, and based on those states, it will trigger smth
+
+
+
+  blocBuilder -> checks states, and based on those states, it will trigger smth
+  (we use this in app_cubit_logic.dart)
+
+	e.g. BlocBuilder<AppCubits, CubitStates>(builder: (context, state) {
+        if (state is LoadedState) { do smth...
+
+	BlocBuilder<AppCubits, CubitStates>(
+          builder: (context, state) {
+        if (state is WelcomeState) {
+          return const WelcomePage();
+
+
+
+e.g. 
+	GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<AppCubits>(context).getData();
+                          }
+                          child: Container(
+                            width: 200,
+                            child: ResponsiveButton(width: 120)),
+                        ),
+	aaaand 
+	--> using blocBuilder, you can also access classes and properties inside the states using the state parameter
+
+	e.g. 
+	    return Scaffold(
+      body: BlocBuilder<AppCubits, CubitStates>(builder: (context, state) {
+        if (state is LoadedState) {
+          var info = state.places; // we can access the state and
+          // the app_cubit_states classes and properties using this state
+          print('debug 0x: ${info}');
+	  ... later on you can use info to subtract data, like itemCount: info.length etc.
+
 
 
 -------------------------------------

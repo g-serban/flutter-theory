@@ -68,8 +68,16 @@ e.g.
 
 	Flexible()
 		-> it's going to take all the space that it has (like a double.maxFinite sorta thing)
+		-> should always be wrapped in a row or column
+			(error: incorrect use of ParentDataWidget)
 
-?
+
+* use GestureDetector to catch gesture events
+
+	e.g. GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<AppCubits>(context).getData();
+                          },
 
 
 Scaffold  ->  has body, bottomNavigationBar, etc.

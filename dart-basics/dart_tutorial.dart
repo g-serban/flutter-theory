@@ -248,6 +248,7 @@ void maps() {
   var heroes = {'Superman': 'Clark', 'Batman': 'Bruce Wayne'};
 
   heroes['Flash'] = 'Barry Allen';
+  print(heroes['Flash']);
 
   print('Empty: ${heroes.isEmpty}');
   print('Empty: ${heroes.length}');
@@ -408,7 +409,6 @@ int getSum4(List vals) {
 List next2(n1) {
   return [n1 + 1, n1 + 2];
 }
-
 
 // function that returns a custom function
 // this is going to create a custom multiplying function
