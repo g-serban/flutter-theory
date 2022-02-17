@@ -5,6 +5,8 @@ width: double.maxFinite  -> takes the complete width of the screen (or height)
 
 
 
+MediaQuery.of(context).size.width  -> takes the width (or height or whatever) of the screen
+
 	# add image
               child: Container(
                 width: double.maxFinite,
@@ -80,9 +82,21 @@ e.g.
                           },
 
 
+
+*Expanded:  if you have multiple items in a row e.g.  Text Icon Icon Icon and you want to distantiate Text from Icons, add an Expanded() between them:  Text Expanded(child: Container()) Icon Icon Icon
+	-> expanded text all the free space between elements
+
 Scaffold  ->  has body, bottomNavigationBar, etc.
 							(anything name Bar usually has children, items containing a list)
 
+
+AssetImage() -> as declared in pubspec.yml  vs Networkimage() -> from a http get 
+
+
+
+
+
+-------------------------------------
 
 container has child and takes only one argument (e.g. Row, Column, Scaffold, etc.)
 row & column have children and take a list

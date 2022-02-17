@@ -9,6 +9,12 @@ import 'dart:math';
 // launchDate?.year -> Use ?. instead of . to avoid an exception when the leftmost operand is null:
 // var canVote = (age >= 18) ? true : false;  -> ternary operator, if () then true or false
 
+
+// _name --> Underscore fields, classes and methods will only be available in the .dart file where they are defined.
+//       --> Unlike Java, Dart doesn’t have the keywords public, protected, and private. 
+//           If an identifier starts with an underscore (_), it’s private to its library. 
+
+
 void main() {
   variables();
   math();
@@ -45,6 +51,7 @@ void main() {
   print('Shape 1 width ${sq1.shapeWidth} & shape 3 width ${sq1.shapeWidth}');
   print(sq4); // -> null
   print(sq4?.unit); // -> null
+  AppColor.homePageBackground;
 
   Circle c1 = new Circle.fromLength(4.0);
   print('Circle area : ${c1.area()}');
@@ -613,4 +620,10 @@ void exceptionHandling() {
 
   // instead of catch e, you can search for it like this
   // on IntegerDivisionByZeroException catch (e);
+}
+
+class AppColor {
+  static Color homePageBackground = const Color(0xFFfbfcff);
+  //The static keyword is used for a class-level variable and method that is the same for every instance of a class,
+  // this means if a data member is static, it can be accessed without creating an object.
 }

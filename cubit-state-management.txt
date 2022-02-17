@@ -37,7 +37,7 @@ UI <-> cubit package -> we create a Cubit (class) -> emit()
 
 
   blocBuilder -> checks states, and based on those states, it will trigger smth
-  (we use this in app_cubit_logic.dart)
+  (we use this in app_cubit_logic.dart to handle routing)
 
 	e.g. BlocBuilder<AppCubits, CubitStates>(builder: (context, state) {
         if (state is LoadedState) { do smth...
@@ -65,11 +65,15 @@ e.g.
 	    return Scaffold(
       body: BlocBuilder<AppCubits, CubitStates>(builder: (context, state) {
         if (state is LoadedState) {
-          var info = state.places; // we can access the state and
-          // the app_cubit_states classes and properties using this state
+          var info = state.places; 
           print('debug 0x: ${info}');
 	  ... later on you can use info to subtract data, like itemCount: info.length etc.
 
+	or wrap evr in the blocbuilder
+		 Widget build(BuildContext context) {
+   		 	return BlocBuilder<AppCubits, CubitStates>(builder: (context, state) {
+      		 	return Scaffold(
+     				 body: Container( ...state.stuff),)})}
 
 
 -------------------------------------
